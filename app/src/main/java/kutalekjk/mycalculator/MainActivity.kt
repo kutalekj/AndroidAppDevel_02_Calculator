@@ -55,6 +55,39 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    fun onEqual(view: View) {
+        if (lastNumeric) {
+            var tvValue = tvInput?.text.toString()
+            var prefix = ""
+
+            try {
+                // Split the prefix from the actual value
+                if (tvValue.startsWith("-")) {
+                    prefix = "-"
+                    tvValue = tvValue.substring(1)
+                }
+
+                // Check for prefix existence
+                if (tvValue.contains("-")) {
+                    val splitValue = tvValue.split("-")
+
+                    var one = splitValue[0]
+                    val two = splitValue[1]
+
+                    // Re-append the prefix before the actual value
+                    if (prefix.isNotEmpty()) {
+                        one = prefix + one
+                    }
+
+                    tvInput?.text = (one.toDouble() - two.toDouble()).toString()
+                }
+            }
+            catch (e: ArithmeticException) {
+                e.printStackTrace()
+            }
+        }
+    }
+
     private fun isOperatorAdded(value: String): Boolean {
         return if (value.startsWith("-")) {
             false
