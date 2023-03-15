@@ -10,7 +10,9 @@ import android.widget.Toast
 class MainActivity : AppCompatActivity() {
     private var tvInput: TextView? = null
 
-    var dotPresent : Boolean = false
+    // var dotPresent : Boolean = false
+    private var lastNumeric: Boolean = true
+    private var lastDot: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,17 +25,45 @@ class MainActivity : AppCompatActivity() {
     fun onDigit(view: View) {
         // need to access the view text, but it doesn't have a ".text" property (a Button does) (?)
         tvInput?.append((view as Button).text)
+        lastNumeric = true
+        lastDot = false
     }
 
     fun onClear(view: View) {
         tvInput?.text = ""
-        dotPresent = false
+        // dotPresent = false
     }
 
     fun onDecimalPoint(view: View) {
-        if (!dotPresent) {
+        if (lastNumeric && !lastDot) {
             tvInput?.append((view as Button).text)
-            dotPresent = true
+
+            // dotPresent = true
+            lastNumeric = false
+            lastDot = true
+        }
+    }
+
+    fun onOperator(view: View) {
+        tvInput?.text?.let {
+            if (lastNumeric && !isOperatorAdded(it.toString())) {
+                tvInput?.append((view as Button).text)
+
+                lastNumeric = false
+                lastDot = false
+            }
+        }
+    }
+
+    private fun isOperatorAdded(value: String): Boolean {
+        return if (value.startsWith("-")) {
+            false
+        }
+        else {
+            value.contains("/")
+                    || value.contains("*")
+                    || value.contains("+")
+                    || value.contains("-")
         }
     }
 }
