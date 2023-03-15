@@ -3,15 +3,27 @@ package kutalekjk.mycalculator
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.Button
+import android.widget.TextView
 import android.widget.Toast
 
 class MainActivity : AppCompatActivity() {
+    private var tvInput: TextView? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        tvInput = findViewById(R.id.tvInput)
     }
 
+    // the "view" represent the actual buttons in this case
     fun onDigit(view: View) {
-        Toast.makeText(this, "Button clicked", Toast.LENGTH_LONG).show()
+        // need to access the view text, but it doesn't have a ".text" property (a Button does) (?)
+        tvInput?.append((view as Button).text)
+    }
+
+    fun onClear(view: View) {
+        tvInput?.text = "0"
     }
 }
