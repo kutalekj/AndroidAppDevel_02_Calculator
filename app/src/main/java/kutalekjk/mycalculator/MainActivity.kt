@@ -10,6 +10,8 @@ import android.widget.Toast
 class MainActivity : AppCompatActivity() {
     private var tvInput: TextView? = null
 
+    var dotPresent : Boolean = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -24,6 +26,14 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun onClear(view: View) {
-        tvInput?.text = "0"
+        tvInput?.text = ""
+        dotPresent = false
+    }
+
+    fun onDecimalPoint(view: View) {
+        if (!dotPresent) {
+            tvInput?.append((view as Button).text)
+            dotPresent = true
+        }
     }
 }
