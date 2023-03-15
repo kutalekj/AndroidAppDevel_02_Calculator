@@ -68,24 +68,74 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 // Check for prefix existence
-                if (tvValue.contains("-")) {
-                    val splitValue = tvValue.split("-")
+                when {
+                    tvValue.contains("-") -> {
+                        val splitValue = tvValue.split("-")
 
-                    var one = splitValue[0]
-                    val two = splitValue[1]
+                        var one = splitValue[0]
+                        val two = splitValue[1]
 
-                    // Re-append the prefix before the actual value
-                    if (prefix.isNotEmpty()) {
-                        one = prefix + one
+                        // Re-append the prefix before the actual value
+                        if (prefix.isNotEmpty()) {
+                            one = prefix + one
+                        }
+
+                        tvInput?.text = removeZeroAfterDot((one.toDouble() - two.toDouble()).toString())
                     }
+                    tvValue.contains("+") -> {
+                        val splitValue = tvValue.split("+")
 
-                    tvInput?.text = (one.toDouble() - two.toDouble()).toString()
+                        var one = splitValue[0]
+                        val two = splitValue[1]
+
+                        // Re-append the prefix before the actual value
+                        if (prefix.isNotEmpty()) {
+                            one = prefix + one
+                        }
+
+                        tvInput?.text = removeZeroAfterDot((one.toDouble() + two.toDouble()).toString())
+                    }
+                    tvValue.contains("/") -> {
+                        val splitValue = tvValue.split("/")
+
+                        var one = splitValue[0]
+                        val two = splitValue[1]
+
+                        // Re-append the prefix before the actual value
+                        if (prefix.isNotEmpty()) {
+                            one = prefix + one
+                        }
+
+                        tvInput?.text = removeZeroAfterDot((one.toDouble() / two.toDouble()).toString())
+                    }
+                    tvValue.contains("*") -> {
+                        val splitValue = tvValue.split("*")
+
+                        var one = splitValue[0]
+                        val two = splitValue[1]
+
+                        // Re-append the prefix before the actual value
+                        if (prefix.isNotEmpty()) {
+                            one = prefix + one
+                        }
+
+                        tvInput?.text = removeZeroAfterDot((one.toDouble() * two.toDouble()).toString())
+                    }
                 }
             }
             catch (e: ArithmeticException) {
                 e.printStackTrace()
             }
         }
+    }
+
+    private fun removeZeroAfterDot(result: String) : String {
+        var value = result
+        if (result.contains(".0")) {
+            value = result.substring(0, result.length - 2)
+        }
+
+        return value
     }
 
     private fun isOperatorAdded(value: String): Boolean {
